@@ -11,21 +11,20 @@ class Solution{
   public:
     int longestKSubstr(string s, int k) {
     // your code here
-        int maxLen = -1,start = 0;
-        unordered_map<char, int> dict;
-        for(int i = 0; i < s.size(); i++) {
-            dict[s[i]]++;
-            while(dict.size() > k) {
-                char left = s[start];
-                dict[left]--;
-                if(dict[left] == 0) dict.erase(left);
+        int maxLen = 0, start = 0;
+        unordered_map<char, int> freq;
+        for(int end = 0; end < s.size(); end++) {
+            char ch = s[end];
+            freq[ch]++;
+            while(freq.size() > k) {
+                freq[s[start]]--;
+                if(freq[s[start]] == 0) freq.erase(s[start]);
                 start++;
             }
-            if(dict.size() == k) {
-                maxLen = max(maxLen, i - start + 1);
-            }
+            if(freq.size() == k)
+                maxLen = max(maxLen, end - start + 1);
         }
-        return maxLen;
+        return maxLen == 0 ? -1 : maxLen;
     }
 };
 
