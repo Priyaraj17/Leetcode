@@ -1,17 +1,22 @@
-class Solution {
-public:
-    int totalFruit(vector<int>& arr) {
-        int maxSize = 0, start = 0;
-        unordered_map<int, int> freq;
-        for(int end = 0; end < arr.size(); end++) {
-            freq[arr[end]]++;
-            while(freq.size() > 2) {
-                freq[arr[start]]--;
-                if(!freq[arr[start]]) freq.erase(arr[start]);
-                start += 1;
+class Solution
+{
+    public:
+        int totalFruit(vector<int> &fruits)
+        {
+            unordered_map<int, int> freq;
+            int s = 0, maxLen = 0;
+            for (int e = 0; e < fruits.size(); e++)
+            {
+                int a = fruits[e];
+                freq[a]++;
+                if (freq.size() > 2)
+                {
+                    freq[fruits[s]] -= 1;
+                    if (freq[fruits[s]] == 0) freq.erase(fruits[s]);
+                    s++;
+                }
+                maxLen = max(maxLen, e - s + 1);
             }
-            maxSize = max(maxSize, end - start + 1);
+            return maxLen;
         }
-        return maxSize;
-    }
 };
